@@ -1,13 +1,6 @@
 import argparse
 import logging
 import sys
-from cryptography.hazmat.primitives import padding
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.hmac import HMAC
-import os
-import binascii
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -36,7 +29,11 @@ def detect_ecb(ciphertext, block_size, threshold):
         block_counts[block] = block_counts.get(block, 0) + 1
 
     total_blocks = len(blocks)
-    repeated_blocks = sum(count > 1 for count in block_counts.values())
+    # The ratio has to count blocks, not distinct values. Counting distinct
+    # repeated values capped the ratio at 1/total_blocks for a file made of
+    # one repeated block, so the clearest ECB case there is scored lowest
+    # and the default threshold of 0.9 could never be reached.
+    repeated_blocks = sum(count for count in block_counts.values() if count > 1)
 
     repetition_ratio = repeated_blocks / total_blocks if total_blocks > 0 else 0
     logging.debug(f"Repetition Ratio: {repetition_ratio}, Threshold: {threshold}")
@@ -113,6 +110,12 @@ def main():
 
     block_size = args.block_size
     threshold = args.threshold
+
+    if block_size <= 0:
+        # A zero block size reached the modulo below and died with a
+        # ZeroDivisionError traceback instead of naming the bad argument.
+        logging.error(f"Block size must be a positive number of bytes, got {block_size}.")
+        sys.exit(1)
 
     if len(ciphertext) % block_size != 0:
         logging.warning("Ciphertext length is not a multiple of the block size.  Padding may be used, or the file may be corrupted.")
