@@ -1,3 +1,5 @@
+![Banner](banner.png)
+
 # crypto-block-mode-analyzer
 Analyzes ciphertext to determine the likely block cipher mode (e.g., ECB, CBC, CTR) used for encryption without requiring the key. Useful for cryptanalysis and identifying potential vulnerabilities in custom crypto implementations. Performs statistical analysis of block repetitions and other characteristic features. - Focused on Basic cryptographic operations
 
