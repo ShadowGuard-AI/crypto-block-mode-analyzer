@@ -1,7 +1,7 @@
 ![Banner](banner.png)
 
 # crypto-block-mode-analyzer
-Analyzes ciphertext to determine the likely block cipher mode (e.g., ECB, CBC, CTR) used for encryption without requiring the key. Useful for cryptanalysis and identifying potential vulnerabilities in custom crypto implementations. Performs statistical analysis of block repetitions and other characteristic features. - Focused on Basic cryptographic operations
+Analyzes ciphertext for the likely block cipher mode without requiring the key. It reports ECB when block repetition is found, reports CTR only from an optional statistical byte frequency test, and otherwise reports an undetermined outcome: CBC, CFB, and OFB cannot be told apart from each other on ciphertext alone. - Focused on Basic cryptographic operations
 
 ## Install
 `git clone https://github.com/ShadowStrikeHQ/crypto-block-mode-analyzer`

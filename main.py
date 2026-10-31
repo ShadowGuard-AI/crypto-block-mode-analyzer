@@ -121,23 +121,28 @@ def main():
         logging.warning("Ciphertext length is not a multiple of the block size.  Padding may be used, or the file may be corrupted.")
 
     try:
-        if detect_ecb(ciphertext, block_size, threshold):
+        ecb_detected = detect_ecb(ciphertext, block_size, threshold)
+        if ecb_detected:
             print("Likely mode: ECB (Electronic Codebook)")
         else:
             print("ECB not detected.")
 
+        ctr_detected = False
         if args.enable_ctr_test:
-            if detect_ctr_statistical_test(ciphertext, block_size, args.sample_size):
+            ctr_detected = detect_ctr_statistical_test(ciphertext, block_size, args.sample_size)
+            if ctr_detected:
                 print("Likely mode: CTR (Counter)")
             else:
                 print("CTR not detected (statistical test).")
         else:
             print("CTR detection skipped. Use --enable_ctr_test to perform statistical CTR detection.")
 
-        # Add other mode detection methods here (CBC, CFB, OFB, etc.)
-        # These will require different analysis techniques.  For CBC, you'd look
-        # for the absence of ECB-like patterns *and* the absence of CTR-like patterns.
-        # CFB and OFB are harder to detect statistically without additional information.
+        if not ecb_detected and not ctr_detected:
+            # CBC, CFB, and OFB produce ciphertext with no ECB repetition
+            # pattern and no CTR byte frequency pattern that this tool can
+            # separate on ciphertext alone, so the honest outcome for them
+            # is undetermined rather than a verdict on any one of them.
+            print("Mode undetermined: CBC, CFB, and OFB cannot be told apart from each other on ciphertext alone.")
 
     except Exception as e:
         logging.error(f"Error during analysis: {e}")
