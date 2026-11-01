@@ -23,6 +23,9 @@ def detect_ecb(ciphertext, block_size, threshold):
     """
     Detects ECB mode based on block repetition.
     """
+    # I slice to the end of the data, so a trailing partial block
+    # becomes a short block in this list. It can never equal a full
+    # block, which quietly lowers the repetition ratio a little.
     blocks = [ciphertext[i:i + block_size] for i in range(0, len(ciphertext), block_size)]
     block_counts = {}
     for block in blocks:
@@ -58,6 +61,9 @@ def detect_ctr_statistical_test(ciphertext, block_size, sample_size):
 
     # Sample random blocks from the ciphertext
     import random
+    # I sample without seeding, so two runs of this test over the
+    # same file can draw different blocks and disagree. The test is
+    # a hint to rerun, not a measurement to quote.
     samples = random.sample(range(0, len(ciphertext) - block_size, block_size), min(sample_size, len(ciphertext) // block_size))
     sample_blocks = [ciphertext[i:i + block_size] for i in samples]
 
@@ -82,6 +88,9 @@ def detect_ctr_statistical_test(ciphertext, block_size, sample_size):
 
     # Check if the variances are uniformly low, indicating a keystream-like pattern
     # (this is a heuristic and can be adjusted)
+    # This 10 is a fixed guess, not derived from the sample. The
+    # same ciphertext can pass or fail it depending on block size,
+    # because bigger blocks hold more varied bytes per position.
     variance_threshold = 10  # Adjust as needed based on your data
     uniform = all(variance < variance_threshold for variance in variances)
     logging.debug(f"Variances: {variances}, Variance Threshold: {variance_threshold}, Uniform: {uniform}")
