@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" role="img" aria-label="The forestry road in three bands: the trunks still while the sky gap darkens, the nightjar sitting still on the track for most of the loop before one low brief flight near the end, and verge grass swaying in the near band with one pale stone catching late light">
+<rect width="1200" height="300" fill="#f5efe0"/>
+<rect x="0" y="0" width="1200" height="92" fill="#66738a"><animate attributeName="fill" values="#7b879c;#4a5870;#4a5870" dur="38s" repeatCount="indefinite"/></rect>
+<g fill="#3e3428"><rect x="60" y="0" width="26" height="120"/><rect x="220" y="0" width="30" height="120"/><rect x="420" y="0" width="24" height="120"/><rect x="760" y="0" width="28" height="120"/><rect x="960" y="0" width="24" height="120"/><rect x="1120" y="0" width="30" height="120"/></g>
+<polygon points="330,300 870,300 700,110 520,110" fill="#b29e7c"/>
+<g><animateTransform attributeName="transform" type="translate" values="0 0;0 0;60 -26;120 -8" keyTimes="0;0.78;0.9;1" dur="30s" repeatCount="indefinite"/><ellipse cx="600" cy="212" rx="52" ry="17" fill="#7a6a4e"/><path d="M566 204 q8 10 0 16 M592 202 q8 12 0 18 M618 202 q8 12 0 18" stroke="#342e24" stroke-width="3" fill="none"/><ellipse cx="652" cy="206" rx="17" ry="13" fill="#7a6a4e"/><circle cx="658" cy="204" r="6" fill="#1e1a14"/></g>
+<g stroke="#34582c" stroke-width="4"><path d="M120 292 q6 -34 -4 -52"><animate attributeName="d" values="M120 292 q6 -34 -4 -52;M120 292 q16 -34 6 -52;M120 292 q6 -34 -4 -52" dur="7s" repeatCount="indefinite"/></path><path d="M180 296 q-4 -30 6 -48"><animate attributeName="d" values="M180 296 q-4 -30 6 -48;M180 296 q8 -30 16 -48;M180 296 q-4 -30 6 -48" dur="9s" repeatCount="indefinite"/></path><path d="M1020 294 q6 -32 -4 -50"><animate attributeName="d" values="M1020 294 q6 -32 -4 -50;M1020 294 q16 -32 6 -50;M1020 294 q6 -32 -4 -50" dur="8s" repeatCount="indefinite"/></path></g>
+<ellipse cx="930" cy="272" rx="14" ry="6" fill="#e8dfc2"/>
+<rect x="0" y="238" width="1200" height="62" fill="none"/>
+</svg>
