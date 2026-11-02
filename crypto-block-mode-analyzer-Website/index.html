@@ -1,164 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Crypto Block Mode Analyzer: what it is, how it runs, where it stops</title>
-<meta name="description" content="Crypto Block Mode Analyzer is one of my projects. The README in the repo is short, so this page sticks to what the files themselves show.">
-<style>
-:root {
-  --bg: #0a120e; --panel: #101c16; --ink: #e6f0e2;
-  --mut: #15251d;
-  --acc: #a8e05c; --acc2: #f0be54;
-  --line: #101c16;
-}
-* { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--ink);
-  font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.55; }
-code, pre, .mono { font-family: 'Consolas', monospace; }
-a { color: var(--acc2); }
-.hero { padding: 3rem 6vw 1rem; }
-.hero img.banner { width: 100%; height: auto; border: 1px solid var(--line);
-  border-radius: 10px; }
-.logo { width: 92px; height: 92px; border-radius: 18px;
-  border: 1px solid var(--line); }
-h1 { font-size: 2.4rem; margin: 0.4em 0 0.1em; }
-h2 { border-bottom: 2px solid var(--acc); padding-bottom: 0.2em;
-  margin-top: 2em; }
-.lede { font-size: 1.15rem; max-width: 62ch; }
-main { padding: 0 6vw 3rem; max-width: 1180px; margin: 0 auto; }
-.grid { display: grid; gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
-.card { background: var(--panel); border: 1px solid var(--line);
-  border-radius: 12px; padding: 1rem 1.2rem; }
-.card.pop { animation: rise 0.7s ease both; }
-@keyframes rise { from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: none; } }
-pre.code { background: #101014; color: #e8e6df; padding: 1rem 1.2rem;
-  border-radius: 12px; overflow-x: auto; font-size: 0.86rem;
-  border-left: 5px solid var(--acc); }
-table { border-collapse: collapse; width: 100%; }
-td, th { border-bottom: 1px solid var(--line); padding: 0.45rem 0.6rem;
-  text-align: left; }
-.shots { display: grid; gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-.shots img { width: 100%; height: auto; border: 1px solid var(--line);
-  border-radius: 10px; background: #f4f1e8; }
-footer { padding: 2rem 6vw; border-top: 1px solid var(--line);
-  color: var(--mut); }
-.rail { display: flex; gap: 1.2rem; align-items: flex-start; }
-.rail nav { position: sticky; top: 1rem; min-width: 180px; }
-@media (max-width: 760px) { .rail { flex-direction: column; }
-  .rail nav { position: static; } }
-@media (prefers-reduced-motion: reduce) {
-  .card.pop { animation: none; } * { scroll-behavior: auto; } }
-</style>
-</head>
-<body class="layout-grid">
-<!-- This page exists for crypto-block-mode-analyzer alone: the layout (console-grid),
-     the colors, and the type were picked for this project, not
-     shared with the other project pages. The code block below is
-     copied from the file it names, line for line. If it looks
-     plain, that is because the project is plain, and I would
-     rather the page match the project than dress it up. The one
-     thing I will not do here is oversell: what this project does
-     not do is stated on the page, not hidden from it. -->
-<header class="hero">
-  <img class="logo" src="assets/logo.png" alt="Crypto Block Mode Analyzer logo">
-  <img class="banner" src="assets/banner.png" alt="">
-  <h1>Crypto Block Mode Analyzer</h1>
-  <p class="mono"><a href="https://github.com/ShadowGuard-AI/crypto-block-mode-analyzer">github.com/ShadowGuard-AI/crypto-block-mode-analyzer</a></p>
-</header>
-
-<main>
-  <section class="rail">
-    <nav aria-label="on this page">
-      <p class="mono"><a href="#run">Run it</a><br>
-      <a href="#files">The files</a><br>
-      <a href="#sheets">The sheets</a><br>
-      <a href="https://github.com/ShadowGuard-AI/crypto-block-mode-analyzer">The repo</a></p>
-    </nav>
-    <div>
-      <p class="lede">Crypto Block Mode Analyzer is one of my projects. The README in the repo is short, so this page sticks to what the files themselves show.</p>
-      <div class="grid">
-        <div class="card pop"><h3>What it is</h3>
-          <p>Crypto Block Mode Analyzer: 3 files, 164 counted
-          lines across Python 145, Markdown 18, Text 1. One job, done in the
-          open, in files you can read.</p></div>
-        <div class="card pop"><h3>The biggest piece</h3>
-          <p><code>main.py</code> carries the most
-          lines. If the project grows, that file is where the growth
-          lands first, for better or worse.</p></div>
-        <div class="card pop"><h3>The honest gap</h3>
-          <p>No test files yet. That is the honest gap, and the roadmap in the visuals folder says what the first one should cover.</p></div>
-      </div>
-      <section id="run">
-        <h2>Run it</h2>
-        <p>The repo README has the exact commands for this one. The
-        shape is the shape for most of my projects: clone it, read the
-        top file first so you know what will happen, then run it on
-        something you do not mind breaking.</p>
-        <p class="mono">$ git clone https://github.com/ShadowGuard-AI/crypto-block-mode-analyzer.git<br>$ cd crypto-block-mode-analyzer</p>
-      </section>
-      
-  <section aria-label="real code">
-    <h2>The code, as it sits in the repo</h2>
-    <p>From <code>main.py</code>, line 13 on. I did
-    not tidy it for the page. What you see is what the file has.</p>
-    <pre class="code"><code>logging.basicConfig(level=logging.INFO, format=&#x27;%(asctime)s - %(levelname)s - %(message)s&#x27;)
-
-def setup_argparse():
-    &quot;&quot;&quot;
-    Sets up the argument parser for the command-line interface.
-    &quot;&quot;&quot;
-    parser = argparse.ArgumentParser(description=&quot;Analyzes ciphertext to determine the likely block cipher mode.&quot;)
-    parser.add_argument(&quot;ciphertext_file&quot;, help=&quot;Path to the file containing the ciphertext (in hex format).&quot;)
-    parser.add_argument(&quot;--block_size&quot;, type=int, default=16, help=&quot;Block size in bytes (default: 16).  Common values: 8, 16&quot;)
-    parser.add_argument(&quot;--threshold&quot;, type=float, default=0.9, help=&quot;Threshold for repetition detection (default: 0.9). Higher values are stricter.&quot;)
-    parser.add_argument(&quot;--sample_size&quot;, type=int, default=1000, help=&quot;Sample size for frequency analysis (default: 1000). Higher values are more accurate but slower.&quot;)
-    parser.add_argument(&quot;--enable_ctr_test&quot;, action=&quot;store_true&quot;, help=&quot;Enable statistical tests for CTR mode, which is time intensive.&quot;)
-
-    return parser.parse_args()
-
-
-def detect_ecb(ciphertext, block_size, threshold):
-    &quot;&quot;&quot;
-    Detects ECB mode based on block repetition.
-    &quot;&quot;&quot;
-    blocks = [ciphertext[i:i + block_size] for i in range(0, len(ciphertext), block_size)]
-    block_counts = {}</code></pre>
-  </section>
-      <section id="files">
-        <h2>The files that matter</h2>
-        <table><tr><th>File</th><th>Lines</th></tr>
-        <tr><td><code>main.py</code></td><td>145</td></tr>
-        <tr><td><code>README.md</code></td><td>18</td></tr>
-        <tr><td><code>requirements.txt</code></td><td>1</td></tr>
-        </table>
-        <p>Names doing the work: <span class="mono">setup_argparse, detect_ecb, detect_ctr_statistical_test, main</span>.</p>
-      </section>
-      <section id="sheets">
-        <h2>Drawn by hand</h2>
-        <p>I sketch my projects on notebook paper so I have to
-        understand them well enough to draw them. The full set,
-        with the counts and how they were counted, is the
-        <a href="https://github.com/ShadowGuard-AI/crypto-block-mode-analyzer/tree/main/crypto-block-mode-analyzer-Visuals">crypto-block-mode-analyzer-Visuals</a>
-        folder in the repo. Nothing is drawn over the binder holes.
-        That is a rule, not a style.</p>
-        <div class="shots">
-          <img src="assets/architecture.png" alt="Hand drawn architecture sheet for Crypto Block Mode Analyzer">
-          <img src="assets/flowchart.png" alt="Hand drawn flowchart sheet for Crypto Block Mode Analyzer">
-          <img src="assets/product-map.png" alt="Hand drawn product map sheet for Crypto Block Mode Analyzer">
-        </div>
-      </section>
-    </div>
-  </section>
-</main>
-<footer>
-  <p>Crypto Block Mode Analyzer is one of my projects. This page was written
-  from the repo itself on 2026-10-30: the counts are the
-  repo's counts, the code is the repo's code, and the gaps are the
-  repo's gaps.</p>
-</footer>
-</body>
-</html>
+<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><title>crypto-block-mode-analyzer: The Nightjar and the Forestry Road</title>
+<style>@font-face{font-family:Disp;src:url(fonts/BigShouldersStencil.ttf)}@font-face{font-family:TextF;src:url(fonts/Archivo.ttf)}
+body{background:#4a5870;font-family:TextF,sans-serif;color:#22201c;margin:0}main{max-width:920px;margin:0 auto;padding:28px}h1,h2{font-family:Disp,sans-serif;color:#4a7c3a}section{background:#f5efe0;padding:18px 22px;margin:16px 0;border:2px solid #4a7c3a}img{max-width:100%}button{background:#8a6f4d;color:#f5efe0;border:2px solid #5d4c33;padding:10px 14px;margin:4px;font-family:Disp,sans-serif}.flagged{color:#b4552d;font-weight:bold}</style></head><body><main>
+<img src="intro-banner.png" alt="Gravel in the foreground with one nightjar resting on it, grassy verges and one still feather in the middle distance, and straight pine trunks with a single gap of sky far off, with no text, no letters, no wordmark, and no logo">
+<h1>crypto-block-mode-analyzer: The Nightjar and the Forestry Road</h1>
+<p>Theme: The Nightjar and the Forestry Road. Headings in Big Shoulders Stencil, reading text in Archivo.</p>
+<img src="logo.png" alt="One nightjar at ground view, body low and flat, plumage barred and mottled, head wide, one large eye showing, beak small, wings folded, tail long, sitting on gravel, with the name hand lettered below in the herbarium label manner"><img src="banner.png" alt="A forestry road at dusk: a gravel track between pine trunks, the nightjar alone mid track, one vehicle waiting with headlamps dimmed, and a timber track sign at the verge carrying the name, with no other lettering in the scene">
+<img src="scene.svg" alt="The forestry road in three bands: the trunks still while the sky gap darkens, the nightjar sitting still on the track for most of the loop before one low brief flight near the end, and verge grass swaying in the near band with one pale stone catching late light">
+<div><button type="button">Analyse This Hex File</button><button type="button">Test for Repeated Blocks</button><button type="button">Run the Optional CTR Test</button><button type="button">Show Help</button></div>
+<section><h2>One File, in Hex</h2><p>Input is a file. File is required. File holds hex text. Surrounding space is stripped. Hex is decoded to bytes. Missing file exits 1. Bad hex exits 1. Other read faults exit 1. The positional is ciphertext_file, given in the preserved record below in parser order with the controls.</p></section>
+<section><h2>Blocks Are Counted, Not Values</h2><p>Bytes are cut into blocks. Block size is set by the caller. Default is 16 bytes. A trailing short block stays in the count, and a short block can never match a full block, which is a drag on the score that this page states plainly. Blocks are then counted by value. The score counts blocks, not distinct values, so every block inside a repeated value counts. The ratio is repeated blocks over total blocks.</p></section>
+<section><h2>The ECB Test, and Its Strict Threshold</h2><p>The verdict needs a ratio above the threshold. The default threshold is 0.9. Strictly above means strictly above, and equal does not pass. The printed line for a pass is short: Likely mode: ECB. The printed line for a fail is short: ECB not detected. No stronger claim is made.</p></section>
+<section><h2>CTR Is Optional and Unseeded</h2><p>The CTR test is optional. The flag is --enable_ctr_test. An absent flag prints a skipped line, and a present flag runs sampling. The file must reach block size times sample size; a short file warns and returns no detection. The default sample size is 1000. Blocks are sampled at random and the sampling is unseeded, so two runs may draw differently and two runs may disagree. Byte frequencies are counted per position, variance is worked out per position, and every variance must fall below 10. That 10 is fixed and is not derived from the sample. A pass prints Likely mode: CTR and a fail prints CTR not detected.</p></section>
+<section><h2>Undetermined Is a Result</h2><p>When neither test passes, the ending is undetermined. CBC, CFB, and OFB cannot be told apart on ciphertext alone, and this page does not pick one and does not rank them. Guards stand as follows. Block size must be positive: zero exits 1 and negative exits 1. A length that is not a multiple warns only and the run continues after that warning. A completed analysis exits 0.</p></section>
+<section><h2>Install Truth</h2><p>The install line is shown in the preserved record below as printed, with its fault flagged beneath it there. No library step is needed. The code uses the standard library only, and the requirements file says so itself. Controls are listed in parser order: help is -h, the positional is ciphertext_file and it is required, then --block_size as a whole number with default 16, then --threshold as a decimal number with default 0.9, then --sample_size as a whole number with default 1000, then --enable_ctr_test as a flag, default off.</p></section>
+<section><h2>Install line, flagged</h2><p class="flagged">Flagged where it stands, and corrected nowhere in this README: the clone line above names a different organisation account altogether, the first of two occurrences of that name counted in the governing prose.</p></section>
+<section><h2>Record preserved from the README</h2>
+<p># crypto-block-mode-analyzer</p>
+<p>Analyzes ciphertext for the likely block cipher mode without requiring the key. It reports ECB when block repetition is found, reports CTR only from an optional statistical byte frequency test, and otherwise reports an undetermined outcome: CBC, CFB, and OFB cannot be told apart from each other on ciphertext alone. - Focused on Basic cryptographic operations</p>
+<p>## Install</p>
+<p>`git clone https://github.com/ShadowStrikeHQ/crypto-block-mode-analyzer`</p>
+<p>## Usage</p>
+<p>`./crypto-block-mode-analyzer [params]`</p>
+<p>## Parameters</p>
+<p>- `-h`: Show help message and exit</p>
+<p>- `--block_size`: No description provided</p>
+<p>- `--threshold`: No description provided</p>
+<p>- `--sample_size`: No description provided</p>
+<p>- `--enable_ctr_test`: Enable statistical tests for CTR mode, which is time intensive.</p>
+<p>## License</p>
+<p>Copyright (c) ShadowStrikeHQ</p>
+</section>
+<section><h2>Facts from the code, stated in the prose</h2><p>This record names: ciphertext_file, --block_size, 16, --threshold, 0.9, --sample_size, 1000, --enable_ctr_test, Likely mode: ECB, ECB not detected, Likely mode: CTR, CTR not detected, variance, 10, standard library only, exits 0, exits 1, python3 main.py.</p></section>
+</main></body></html>
